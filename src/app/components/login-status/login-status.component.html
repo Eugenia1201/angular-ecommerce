@@ -13,6 +13,14 @@
 
   <button
     *ngIf="isAuthenticated"
+    routerLink="/order-history"
+    class="security-btn"
+  >
+    Orders
+  </button>
+
+  <button
+    *ngIf="isAuthenticated"
     routerLink="/members"
     class="security-btn ml-1"
   >

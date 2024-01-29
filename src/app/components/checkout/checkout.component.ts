@@ -31,6 +31,7 @@ export class CheckoutComponent {
 
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
+  storage: Storage = sessionStorage;
 
   constructor(private formBuilder: FormBuilder,
               private shopFormService: ShopFormService,
@@ -42,12 +43,14 @@ export class CheckoutComponent {
   ngOnInit(): void{
 
     this.reviewCartDetails();
+    // read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
     
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, Validators.minLength(2), ShopValidators.notOnlyWhitespace]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(2), ShopValidators.notOnlyWhitespace]),
-        email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
+        email: new FormControl(theEmail, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
 
       shippingAddress: this.formBuilder.group({
