@@ -3,18 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Purchase } from '../common/purchase';
 import { environment } from '../../environments/environment';
+import { PaymentInfo } from '../common/payment-info';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutService {
 
-private purchaseUrl = environment.luv2shopApiUrl + '/checkout/purchase';
+  private purchaseUrl = environment.luv2shopApiUrl + '/checkout/purchase';
+  private paymentIntentUrl = environment.luv2shopApiUrl + '/checkout/payment-intent';
 
   constructor(private httpClient: HttpClient) { }
 
+  //Make REST API call to the backend to post data/object/intent 
   placeOrder(purchase: Purchase): Observable<any> {
     return this.httpClient.post<Purchase>(this.purchaseUrl, purchase);    
+  }
+  createPaymentIntent(paymentInfo: PaymentInfo): Observable<any>{
+    return this.httpClient.post<PaymentInfo>(this.paymentIntentUrl, paymentInfo);
   }
   
 }
